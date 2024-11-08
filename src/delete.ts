@@ -1,33 +1,17 @@
 import { PrismaClient } from "@prisma/client";
-import { Console } from "console";
 
 const prisma = new PrismaClient();
 
-const main = async () => {
+const deleteData = async () => {
+    // const singleDelete = await prisma.post.delete({
+    //     where: {
+    //         id: 1
+    //     }
+    // });
 
-// delete single
-//   const singleDelete = prisma.post.delete({
-//     where: {
-//       id: 1,
-//     },
-//   });
-//   console.log(singleDelete);
+    const deleteMany = await prisma.post.deleteMany({})
 
+    console.log(deleteMany);
+};
 
-
-// delete many 
-// const ManyDelete = prisma.post.deleteMany({
-//         where: {
-//          published: false,
-//         },
-//       });
-//       console.log(ManyDelete);
-
-
-
-// all deleteAll 
-// const deleteAll = prisma.post.deleteMany({})
-
-}
-
-main();
+deleteData();

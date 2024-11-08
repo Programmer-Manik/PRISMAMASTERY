@@ -1,67 +1,37 @@
 import { PrismaClient } from "@prisma/client";
-// import { Console } from "console";
 
 const prisma = new PrismaClient();
 
 const main = async () => {
-//findMany
-//   const getAllFromDB = await prisma.post.findMany();
-  //   console.log(getAllFromDB);
+    // find all
+    const getAllFromDB = await prisma.post.findMany({
+        select: {
+            authorName: true
+        }
+    });
 
+    console.log("Get all data: ", getAllFromDB);
 
-  //find first  
-//   const findFirst = await prisma.post.findFirst({
-//     where: {
-//       id: 1,
-//     },
-//   });
+    // find first and find first or throw error
+    const findFirst = await prisma.post.findFirstOrThrow({
+        where: {
+            published: false
+        }
+    });
 
-  //findfirstOrThro
-//   const findFirst = await prisma.post.findFirstOrThrow({
-//     where: {
-//       published: true,
-//     },
-//   });
-//   console.log({ findFirst });
+    // find unique and find unique or throw error
+    const findUnique = await prisma.post.findUniqueOrThrow({
+        where: {
+            id: 9
+        },
+        select: {
+            title: true,
+            // content: true,
+            // authorName: true
+        }
+    })
 
-
-
-// findUnique 
-// const findUnique = await prisma.post.findUnique({
-//     where: {
-//       id: 1,
-//     },
-  
-// });
-//   console.log({ findUnique });
-
-
-// findUniqueOrThrow query
-// const findUnique = await prisma.post.findUniqueOrThrow({
-//     where: {
-//       id: 20,
-//     },
-  
-// });
-// console.log({findUnique})
-
-
-
-// select 
-const findUnique = await prisma.post.findUniqueOrThrow({
-    where: {
-      id: 20,
-    },
-    select:{
-        title:true,
-        content:true,
-    }
-  
-});
-console.log({findUnique})
-
-
-
-};
+    console.log({ findUnique })
+}
 
 main();

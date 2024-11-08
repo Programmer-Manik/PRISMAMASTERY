@@ -1,41 +1,53 @@
-import { PrismaClient } from "@prisma/client";
-import { Console } from "console";
+import { PrismaClient, UserRole } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 const main = async () => {
-  const createMany = await prisma.post.createMany({
-    data: [
-      {
-        title: "post 1",
-        content: "content 1",
-        author: "author 1",
-      },
-      {
-        title: "post 2",
-        content: "content 2",
-        author: "author 2",
-      },
-      {
-        title: "post 3",
-        content: "content 3",
-        author: "author 3",
-      },
-      {
-        title: "post 4",
-        content: "content 4",
-        author: "author 4",
-      },
-      {
-        title: "post 5",
-        content: "content 5",
-        author: "author 5",
-      },
-    ],
-  });
-console.log(createMany)
+    // const createUser = await prisma.user.create({
+    //     data: {
+    //         username: "user2",
+    //         email: "user2@ph.com",
+    //         role: UserRole.user
+    //     }
+    // });
 
+    // const createProfile = await prisma.profile.create({
+    //     data: {
+    //         bio: "this is bio...",
+    //         userId: 1
+    //     }
+    // })
 
-};
+    // const createCategory = await prisma.category.create({
+    //     data: {
+    //         name: "software engineering"
+    //     }
+    // })
+
+    const createPost = await prisma.post.create({
+        data: {
+            title: "this is title 5",
+            content: "this is content of the post. 5",
+            authorId: 3,
+            postCategory: {
+                create: [
+                    {
+                        categoryId: 1
+                    },
+                    {
+                        categoryId: 3
+                    },
+                    {
+                        categoryId: 4
+                    }
+                ]
+            }
+        },
+        include: {
+            postCategory: true
+        }
+    })
+    console.log(createPost)
+}
 
 main();
